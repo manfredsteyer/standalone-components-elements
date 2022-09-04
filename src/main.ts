@@ -1,12 +1,21 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+// main.ts
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import { createCustomElement } from '@angular/elements';
+import { createApplication } from '@angular/platform-browser';
+import { ToggleComponent } from './app/toggle/toggle.component';
 
-if (environment.production) {
-  enableProdMode();
-}
+(async () => {
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+  const app = await createApplication({
+    providers: [
+      /* your global providers here */
+    ],
+  });
+
+  const toogleElement = createCustomElement(ToggleComponent, {
+    injector: app.injector,
+  });
+
+  customElements.define('my-toggle', toogleElement);
+
+})();
